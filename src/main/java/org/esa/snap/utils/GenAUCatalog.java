@@ -43,8 +43,10 @@ public class GenAUCatalog {
     private static final String TAG_NAME_MODULE = "module";
     private static final String ATTRIB_NAME_DOWNLOADSIZE = "downloadsize";
     private static final String ATTRIB_NAME_NAME = "name";
-    private static final String XML_HEAD = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n" +
-                                           "<!DOCTYPE module_updates PUBLIC \"-//NetBeans//DTD Autoupdate Catalog 2.5//EN\" \"http://www.netbeans.org/dtds/autoupdate-catalog-2_5.dtd\">\r\n\r\n";
+    private static final String XML_HEAD = String.format(
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>%n" +
+        "<!DOCTYPE module_updates PUBLIC \"-//NetBeans//DTD Autoupdate Catalog 2.5//EN\" \"http://www.netbeans.org/dtds/autoupdate-catalog-2_5.dtd\">%n%n"
+    );
 
     private final Path moduleDir;
     private final SimpleDateFormat timeStampFormat;
@@ -135,10 +137,10 @@ public class GenAUCatalog {
         if (notificationMessage != null) {
             writeNotificationElement(writer);
         }
-        writer.write(String.format("<module_updates timestamp=\"%s\">\r\n\r\n", timeStampFormat.format(Date.from(Instant.now()))));
+        writer.write(String.format("<module_updates timestamp=\"%s\">%n%n", timeStampFormat.format(Date.from(Instant.now()))));
         writeNodeCollection(moduleList, writer);
         writeNodeCollection(licenseMap.values(), writer);
-        writer.write("</module_updates>\r\n");
+        writer.write(String.format("</module_updates>%n"));
         writer.close();
     }
 
@@ -147,7 +149,7 @@ public class GenAUCatalog {
         if (notificationURL != null) {
             urlString = String.format(" url=\"%s\"", notificationURL);
         }
-        writer.write(String.format("<notification%s>%s</notification>\r\n\r\n", urlString, notificationMessage));
+        writer.write(String.format("<notification%s>%s</notification>%n%n", urlString, notificationMessage));
     }
 
     private boolean isNbmModuleFile(Path path) {
@@ -190,7 +192,7 @@ public class GenAUCatalog {
             xmlTransformer.transform(new DOMSource(node), new StreamResult(stringWriter));
             stringWriter.flush();
             writer.write(stringWriter.toString());
-            writer.write("\r\n");
+            writer.write(String.format("%n"));
         }
     }
 
