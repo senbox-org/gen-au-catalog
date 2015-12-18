@@ -106,7 +106,7 @@ public class GenAUCatalog {
         ArrayList<Node> moduleList = new ArrayList<>();
         HashMap<String, Node> licenseMap = new HashMap<>();
 
-        final Stream<Path> nbmFiles = Files.list(moduleDir).filter(this::isNbmModuleFile);
+        final Stream<Path> nbmFiles = Files.list(moduleDir).filter(this::isNbmModuleFile).sorted();
         nbmFiles.forEach(path -> processModule(path, moduleList, licenseMap));
 
         log(String.format("Found %d modules in directory", moduleList.size()));
